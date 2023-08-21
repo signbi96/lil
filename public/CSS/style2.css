@@ -1,0 +1,44 @@
+.left{
+    width: 20%;
+    background-color: red;
+    float: left;
+    height: 800px;
+  }
+
+  .right{
+    width: 80%;
+    float: right;
+    height: 800px;
+
+  }
+.conteneur1{
+    margin-top: 4%;
+    margin-left: 5%;
+    background-color:#002978 ;
+    height: auto;
+    width: 40%;
+    text-align: center;
+    color: white;
+  }
+ 
+
+  select{
+    width: 600px;
+    height: 50px;
+    border-radius: 10px;
+    margin-top: 8%;
+  }
+  button{
+    margin-top: 8%;
+    background-color: blue;
+    margin-left: 25%;
+    color: white;
+    border-radius: 8px;
+    height: 50px;
+    width: 300px;
+
+  }
+  
+  .tout{
+    display: inline;
+  }
