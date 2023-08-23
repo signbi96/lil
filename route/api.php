@@ -6,7 +6,7 @@ use App\Controllers\Api\UniteController;
 use App\Controllers\Api\CategorieController;
 use App\Controllers\Api\FournisseurController;
 use App\Controllers\Api\ConfectionVenteController;
-use App\Controllers\Apia\CategorieUniteController;
+use App\Controllers\Api\CategorieUniteController;
 use App\Controllers\Api\ArticleConfectionController;
 
 Rooter::route("/api/categorie",[CategorieController::class,'index']);
@@ -29,6 +29,8 @@ Rooter::route("/api/articleconfection-list",[ArticleConfectionController::class,
 
 Rooter::route("/api/fournisseur-list",[FournisseurController::class,'index']);
 Rooter::route("/api/fournisseur-add",[FournisseurController::class,'store']);
+Rooter::route("/api/categorie-unite",[CategorieUniteController::class,'index']);
+Rooter::route("/api/recup-categorie",[CategorieUniteController::class,'recupIdCategorie']);
 
 
-Rooter::route("/api/getunite-categorie",[CategorieUniteController::class,'index']);
+

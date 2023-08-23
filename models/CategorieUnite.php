@@ -7,6 +7,7 @@ use App\Models\Categorie;
 class CategorieUnite extends Model{
     public  int $id;
     public int $idCategorie;
+    public string $libelle;
     public int $idUnite;
      protected static function tableName(){
                return "categorieunite";
@@ -18,13 +19,15 @@ class CategorieUnite extends Model{
       }
       
       public function unite(){
-        return $this->UniteModel-> find($this->$idUnite);
+        return $this->UniteModel-> find($this->idUnite);
       }
  
       public static function findDetailByCategorie(int $idCategorie){
          return parent::query("select * from ".  self::tableName() ." where idCategorie=:idCategorie  ",["idCategorie"=>$idCategorie]);
       }
 
+
+     
 
 }
 

@@ -12,7 +12,8 @@
                                          <div class="form-group has-success" >
                                           <label class="form-label " for="inputvalid" >Libelle</label>
                                           <input type="text" name="libelle" value="" class="form-control" id="libelle">
-                                          
+                                         
+                                          <div id="errorMessage"></div>
                                         </div>
                                         </div>
 
@@ -53,8 +54,8 @@
                                        <div class="col" style="display:flex;justify-content:space-between;margin-top:-4%">
                                        <div class="form-group">
                                        <label for="">Categorie</label>
-                                       <select class="form-control" name="categorieId" id="selectCategorie" style="width:330%;">
-                                           <option value="">choisir categorie</option>
+                                       <select class="form-control" name="categorieId" id="selectCategorie" style="width:280%;">
+                                           <option value="-1">choisir categorie</option>
                                        </select>
                                        <div id="conteneurCategorie"></div> 
                                      </div>
@@ -65,12 +66,12 @@
                                      <div class="col" style="display:flex;justify-content:space-between;margin-top:-4%">
                                        <div class="form-group">
                                        <label for="">Unite</label>
-                                       <select class="form-control" name="categorieId" id="selectUnite"style="width:417%;">
-                                           <option value="">choisir unite</option>
+                                       <select class="form-control" name="categorieId" id="selectUnite"style="width:350%;">
+                                           <option value="-1">choisir unite</option>
                                        </select>
                                      </div>
-                                     <button data-bs-toggle="modal" data-bs-target="#exampleModal2" type="button" id="buttonAddUnite"
-                                     style="background:#002978;color:white;height:2em;margin-top:5.5%;border-radius:8px">+</button>
+                                     <button data-bs-toggle="modal" data-bs-target="#exampleModal2" type="button" id="buttonAddUnite" 
+                                     style="background:#002978;color:white;height:2em;margin-top:5.5%;border-radius:8px" >+</button>
                                      </div>
                                     
                                     </div>
@@ -85,7 +86,6 @@
                                             style="background:#002978;color:white;height:2em;border-radius:8px;margin-top:0.3%">+</button>
                                             </div>
                                               <div id="conteneurCheck"></div> 
-                                          
                                           </div>
                                           </div>
                                           </div>
@@ -93,7 +93,6 @@
                                              <button type="submit" class="btn btn-primary" data-bs-dismiss="modal"  id="addArticle"
                                              style="width: 20%;margin-top:2%;background:#002879;margin-left:11%" >Ajouter Article</button>
                                            </div>
-
                            </form>
                           </div>
 
@@ -110,7 +109,17 @@
                                           <label for="libelle">libelleCategorie</label>
                                           <input type="text" name="libelleModal" id="libelleCategorie" class="form-control" value="" >
                                          <span style="color:red" id="messagelibelleCategorie"></span>
-                                           
+
+                                          <div class="loulou" style="display:flex;margin-top:4%">
+                                           <label for="libelle">unite</label>
+                                           <input type="text" name="libelleModal" id="uniteModalCategorie" class="form-control" value="" >
+                                           <span style="color:red" id="messagelibelleCategorie"></span> 
+
+                                           <label for="libelle">convertir</label>
+                                           <input type="text" name="libelleModal" id="convertisseurDefaut" class="form-control" value="1" readonly="readonly">
+                                           <span style="color:red" id="messagelibelleCategorie"></span> 
+                                          </div>
+                                        
                                 </div>
                                 <div class="modal-footer">
                                   <button type="submit" class="btn btn-primary" data-bs-dismiss="modal"  id="ajouterCategorie">ajouter</button>

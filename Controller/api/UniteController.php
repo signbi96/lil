@@ -15,7 +15,7 @@ class UniteController extends Controller{
               
            }
            public function store(){
-            $data = $this->decodeJson();        
+            $data = $this->decodeJson();      
             foreach ($data["table"] as $value){
                 Validator::isVide($value['id'],"id");
                 Validator::isVide($value['libelle'],"libelle");
@@ -28,6 +28,7 @@ class UniteController extends Controller{
                      CategorieUnite::create([
                          'idCategorie' => $value['id'],
                          'idUnite' => $lastInsertId->id,
+                         "libelle" => $value['libelle'],
                      ]);
                         }
                         // $this->redirect("categorie");    
@@ -38,10 +39,6 @@ class UniteController extends Controller{
            public function index(){   
             $data = Unite::all();
             $this->renderJson($data);
-           }
-
-           public function indexjs(){   
-
            }
 
            public function delete(){ 

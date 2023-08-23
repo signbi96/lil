@@ -1,9 +1,10 @@
 <?php
-namespace App\Controllers\Apia;
+namespace App\Controllers\Api;
 
+use App\Core\Session;
 use App\Core\Controller;
 use App\Models\Categorie;
-use App\core\CategorieUnite;
+use App\Models\CategorieUnite;
 
 class CategorieUniteController extends Controller
 {
@@ -15,11 +16,20 @@ class CategorieUniteController extends Controller
     {
 
     }
+    public function recupIdCategorie(){     
+        $data = $this->decodeJson();  
+        $_SESSION['id'] = $data['id'];
+      }
     public function index()
     {
-       $data =  findDetailByCategorie(1); 
+        if(Session::isset('id')){
+            $id = Session::get("id");
+           Session::unset("id");
+          }
+        $data = CategorieUnite::findDetailByCategorie($id); 
         $this->renderJson($data);
     }
+  
     public function delete(){
 
     }

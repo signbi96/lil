@@ -12,16 +12,6 @@ window.addEventListener("load",async function(){
              });
     });
 
-    const selectUnite = document.querySelector('#selectUnite')
-    await Api.getData(`${WEB_URL}/unite`).then(function (data) {
-       data.forEach(element => {
-           const option = document.createElement('option');
-           option.value = element.id; 
-           option.textContent = element.libelle;
-           selectUnite.appendChild(option);
-       });
-   });
-
 
 //lister Articles de confections
    await Api.getData(`${WEB_URL}/articleconfection-list`).then(function (data) {
@@ -47,8 +37,6 @@ window.addEventListener("load",async function(){
     `
     }
  });
-  
-  
  })
 
  //recuperer photo apres clique 
@@ -63,43 +51,22 @@ function onChangeImage(){
     }
 }
 
-
- //Selectionne Categorie
- selectCategorie.addEventListener("change",function(){
-    const id = selectCategorie.options[selectCategorie.selectedIndex].value
-    const libelle = selectCategorie.options[selectCategorie.selectedIndex].textContent
-    var checkbox = document.createElement('input');
-    checkbox.type = 'checkbox';
-    checkbox.id = id;
-    checkbox.name = libelle;
-    checkbox.checked = true;
-    
-    var label = document.createElement('label')
-    label.htmlFor = 'car';
-    label.appendChild(document.createTextNode(libelle));
- 
-    var br = document.createElement('br');
- 
-    var container = document.getElementById('conteneurCategorie');
-    container.appendChild(checkbox);
-    container.appendChild(label);
-    container.appendChild(br); 
-    checkbox.addEventListener("click",function(){
-      checkbox.style.display = "none"
-      label.style.display = "none"
-    }) 
-        
- })
-
-
  //ajout categorie
  exampleModal1.onsubmit = async function(event){
     event.preventDefault()
         const value = libelleCategorie.value
-        await Api.postData(`${WEB_URL}/categorie-add`,{libelle: value}).then(function (data) {
+        const option = document.createElement("option")
+        option.value = value
+        option.textContent = value
+        selectCategorie.appendChild(option)
+        selectCategorie.value = value
+        const uniteModal = uniteModalCategorie.value
+        const convertisseurModal= convertisseurDefaut.value
+        await Api.postData(`${WEB_URL}/categorie-add`,{libelle: value,libelleModal: uniteModal,convertisseur: convertisseurModal}).then(function (data) {
                 
          })  
 }
+
 
 
  //ajout article
@@ -212,7 +179,7 @@ exampleModal2.onsubmit = async function(event){
 
 
 // Ajoutez un gestionnaire d'événement pour l'événement de suppression du contenu du champ d'input
-fournisseur.addEventListener("change", function() {
+fournisseur.addEventListener("change", function(){
     // Mettez à jour les cases à cocher lorsque le champ d'input est modifié
     updateCheckboxes();
 });
@@ -232,5 +199,44 @@ fournisseur.addEventListener("change", function() {
     })
     
 }
+
+//recherche article de confection
+selectCategorie.addEventListener("change",async function(){
+    const id = selectCategorie.options[selectCategorie.selectedIndex].value
+    await Api.postData(`${WEB_URL}/recup-categorie`,{id: id}).then(function (data) {
+            
+     }) 
+    })   
+   
+selectCategorie.addEventListener("change",async function(){
+       buttonAddUnite.style.display = "block";
+    await Api.getData(`${WEB_URL}/categorie-unite`).then(function (data) {
+               data.forEach(element => {
+                   const option = document.createElement('option');
+                   option.value = element.id; 
+                   option.textContent = element.libelle;
+                   selectUnite.appendChild(option);
+               });      
+})
+})
+
+let lastValue = '';
+var errorMessage = document.getElementById("errorMessage");
+libelle.addEventListener('input',async function(event){
+    lastValue = event.target.value;
+ await Api.getData(`${WEB_URL}/articleconfection-list`).then(function (data) {
+      data.forEach(element => {
+        if (String(element.libelle) === String(lastValue)){
+            errorMessage.style.color = "green";
+            errorMessage.textContent = 'existe deja dans la base de donnée';
+         }   
+      });
+ });
+})
+
+if(selectCategorie.value === "-1"){
+          buttonAddUnite.style.display = "none";
+}
+  
 
 
