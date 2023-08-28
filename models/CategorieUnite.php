@@ -9,6 +9,7 @@ class CategorieUnite extends Model{
     public int $idCategorie;
     public string $libelle;
     public int $idUnite;
+    public float $convertisseur;
      protected static function tableName(){
                return "categorieunite";
       }
@@ -25,9 +26,7 @@ class CategorieUnite extends Model{
       public static function findDetailByCategorie(int $idCategorie){
          return parent::query("select * from ".  self::tableName() ." where idCategorie=:idCategorie  ",["idCategorie"=>$idCategorie]);
       }
-
-
-     
+   
 
 }
 

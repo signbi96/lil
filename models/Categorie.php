@@ -22,6 +22,11 @@ use App\Core\Model;
           }
          
 
+
+          public static function recupCategories(){
+            return self::query('SELECT * FROM '.static::tableName());
+          }
+
        //Methodes   ==> Fonctions 
           //Convention 
            //1-camelCase  ==>  maFonction(arg)
@@ -104,5 +109,7 @@ use App\Core\Model;
 
                   return $this;
          }
-        
+         public static function all2(){
+          return self::query("SELECT * FROM categorie order by id desc");
+        }  
  }

@@ -145,4 +145,16 @@ public static function updateQuantite(int $id,int $qteStock){
     return self::query('SELECT DISTINCT fournisseur FROM '.static::tableName());
 }
 
+
+public function findDetails($id){
+    $bdd = parent::openConnexion();
+    $req = $bdd->prepare('SELECT * FROM '.static::tableName().' WHERE id = :id');
+    $req->bindValue(':id',$id);
+    $req->setFetchMode(\PDO::FETCH_CLASS,get_called_class());
+    $req->execute();
+    $data=$req->fetch();
+    $req->closeCursor();
+    return $data; 
+ }
+
 }

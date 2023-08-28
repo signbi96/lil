@@ -9,14 +9,13 @@ use App\Models\CategorieUnite;
 
  
 class CategorieController extends Controller{
-  
            public function create(){
               
            }
            public function store(){
             $data = $this->decodeJson();
             Validator::isVide($data['libelle'],"libelle");
-            Validator::isVide($data['libelleModal'],"libelle");
+           // Validator::isVide($data['libelleModal'],"libelle");
             Validator::isVide($data['convertisseur'],"convertisseur");
            
             if(Validator::validate()){
@@ -24,24 +23,35 @@ class CategorieController extends Controller{
                $categorie = Categorie::create([
                   "libelle" => $data['libelle']
                  ]);
-
+                 $etat = 1;
                 $unite = Unite::create([
                   "libelle" => $data['libelleModal'],
-                  "convertisseur" => $data['convertisseur']
+                  "etat" => $etat
                 ]);
                 CategorieUnite::create([
                       "idCategorie" => $categorie->id,
                       "idUnite" => $unite->id,
                       "libelle" => $data['libelleModal'],
+                      "convertisseur" => $data['convertisseur']
                   ]);
+
+                  $response['dataCategorie'] = [
+                    'libelleCategorie' => $data['libelle'],
+                    'idCategorie' => $categorie->id,
+                    'libelleUnite' =>  $data['libelleModal'],
+                    'idUnite' => $unite->id,
+                    'convertisseur' => $data['convertisseur']
+                   ];
+
+                 
 
               } catch (\PDOException $th) {
                 Validator::$errors["libelle"] = "cette categorie existe deja dans la base de donnés";
               }
+                 echo json_encode($response);
                
             }
                // Session::set("errors",Validator::$errors);
-               
               // $errors['erreur'] = "champ obligatoire";
               //$errors['erreur'] = "erreur code";
              //$this->renderJson($errors);
@@ -54,6 +64,11 @@ class CategorieController extends Controller{
                   $data = Categorie::all();
                   $this->renderJson($data);      
            }
+
+           public function index2(){      
+            $data = Categorie::all2();
+            $this->renderJson($data);      
+     }
 
            public function delete(){ 
                 

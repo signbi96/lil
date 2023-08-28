@@ -11,6 +11,7 @@ use App\Controllers\Api\ArticleConfectionController;
 
 Rooter::route("/api/categorie",[CategorieController::class,'index']);
 Rooter::route("/api/categorie-add",[CategorieController::class,'store']);
+Rooter::route("/api/categorie/list",[CategorieController::class,'index2']);
 
 
 Rooter::route("/api/confectionvente-add-select",[ConfectionVenteController::class,'select']);
@@ -25,12 +26,15 @@ Rooter::route("/api/unite-add",[UniteController::class,'store']);
 
 Rooter::route("/api/articleconfection-add",[ArticleConfectionController::class,'store']);
 Rooter::route("/api/articleconfection-list",[ArticleConfectionController::class,'index']);
+Rooter::route("/api/articleconfection-table",[ArticleConfectionController::class,'tableGet']);
+Rooter::route("/api/recup-categorie-id",[ArticleConfectionController::class,'getIdCategorie']);
 
 
 Rooter::route("/api/fournisseur-list",[FournisseurController::class,'index']);
 Rooter::route("/api/fournisseur-add",[FournisseurController::class,'store']);
 Rooter::route("/api/categorie-unite",[CategorieUniteController::class,'index']);
 Rooter::route("/api/recup-categorie",[CategorieUniteController::class,'recupIdCategorie']);
+
 
 
 

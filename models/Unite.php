@@ -5,7 +5,7 @@ use App\Core\Model;
 class Unite extends Model{
          public int $id;
          public string $libelle;
-         public float $convertisseur;
+         public int $etat;
           protected static function tableName(){
                 return "unite";
           }

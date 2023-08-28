@@ -1,5 +1,6 @@
 <?php
 namespace App\Controllers\Api;
+use App\Core\Session;
 use App\Core\Validator;
 use App\Core\Controller;
 use App\Models\Categorie;
@@ -16,37 +17,50 @@ class ArticleConfectionController extends Controller{
      }
      public function store(){
       $data = $this->decodeJson();
+      $response["dataArticle"] = [] ; 
+      define('ROUTE' , 'C:\Users\W10\Desktop\lil\public\ressources\IMAGE\ ');
       Validator::isVide($data['libelle'],"libelle");
       Validator::isVide($data['prixAchat'],"prixAchat");
       Validator::isVide($data['quantite'],"qteStock");
     //  Validator::isVide($data['photo'],"photo");
       if(Validator::validate()){
-        $lili = "test.jpg";
+        $uploadPath = ROUTE . $data['cheminImage'];
+        file_put_contents($uploadPath, $data['cheminImage']);
         $lastInsertId = ArticleConfection::create([
             "libelle" => $data['libelle'],
             "prixAchat" => $data['prixAchat'],
             "qteStock" => $data['quantite'],
-            "referent" =>substr($data['libelleCategorie'], 0, 3)."-".substr($data['libelle'], 0, 4)."-".$data['selectCategorie'],
-            "photo" => $lili, //$data['photo'],
+            "referent" => $data['referent'],
+            'photo' => $data['photo'],
             "categorieId" => $data['selectCategorie'],
             "idUnite" => $data['selectUnite']
            ]);
-       foreach ($data['table'] as $key => $value) {
+       foreach ($data['data2'] as $key => $value) {
          FournisseurArticle::create([
-               "idFournisseur" => $value['idf'],
+               "idFournisseur" => $value['id'],
                "idArticle" => $lastInsertId->id,
          ]);     
        }
+       
+       $response['dataArticle'][] = [
+            "libelle" => $data['libelle'],
+            "prixAchat" => $data['prixAchat'],
+            "qteStock" => $data['quantite'],
+            "referent" => $data['referent'],
+            "idArticle" => $lastInsertId->id,
+        ];
          
       }
+      $this->renderJson($response['dataArticle']);    
         // $this->RenderJson($errors);
      }
 
-
-    public function index(){
-      $data = ArticleConfection::all();
-        $this->RenderJson($data);
-       }
+     
+        public function index(){
+          
+          $data = ArticleConfection::all();
+            $this->RenderJson($data);
+          }
 
            public function delete(){
                        
@@ -54,5 +68,18 @@ class ArticleConfectionController extends Controller{
            public function update(){
             
            }
+          public function getIdCategorie(){
+            $data = $this->decodeJson();  
+            $_SESSION['idc'] = $data['idc'];
+          }
+
+          //  public function tableGet(){
+          //   if(Session::isset('idc')){
+          //     $idc = Session::get("idc");
+          //    Session::unset("idc");
+          //   }
+          //   $data = ArticleConfection::find(14) ;
+          //     $this->renderJson($data);  
+          //    }
          
  }

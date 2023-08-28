@@ -5,6 +5,7 @@ use App\Core\Session;
 use App\Core\Controller;
 use App\Models\Categorie;
 use App\Models\CategorieUnite;
+use App\Models\ArticleConfection;
 
 class CategorieUniteController extends Controller
 {
@@ -29,6 +30,8 @@ class CategorieUniteController extends Controller
         $data = CategorieUnite::findDetailByCategorie($id); 
         $this->renderJson($data);
     }
+
+    
   
     public function delete(){
 
