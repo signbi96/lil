@@ -38,6 +38,7 @@ window.addEventListener("load",async function(){
     }
  });
  })
+ 
 
 //image
 const inputValid = document.querySelector("#inputvalid");
