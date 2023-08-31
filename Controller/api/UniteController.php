@@ -38,10 +38,8 @@ class UniteController extends Controller{
                         "convertisseur" => $value['convertisseur'],
                         "idCategorie" =>  $value['id'],
                        ];
-                         //echo json_encode($responseData);
-                         
-                        }
-                        // $this->redirect("categorie");    
+                                               
+                        }     
                     }
                     $this->renderJson($responseData['dataUnite']);    
          }

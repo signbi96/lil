@@ -4,6 +4,7 @@ use App\Core\Session;
 use App\Core\Validator;
 use App\Core\Controller;
 use App\Models\Categorie;
+use App\Models\CategorieUnite;
 use App\Models\ArticleConfection;
 use App\Models\FournisseurArticle;
 
@@ -16,7 +17,20 @@ class ArticleConfectionController extends Controller{
         require("../ressources/Views/base.layout.html.php");   
      }
      public function store(){
-      $data = $this->decodeJson();
+        $data = $this->decodeJson();
+        $data1 = CategorieUnite::all();
+       
+        $quantite = 1;
+        $selectedUnite = trim($data['selectUnite']);
+        $dataquantite = $data['quantite'];
+        foreach ($data1 as $key => $value) {
+            $idUnite = trim($value->id);
+            $convertisseur = floatval($value->convertisseur); 
+            if ($idUnite === $selectedUnite) {
+                $quantite = $quantite * $convertisseur * $dataquantite;
+            }
+        }
+
       $response["dataArticle"] = [] ; 
       define('ROUTE' , 'C:\Users\W10\Desktop\lil\public\ressources\IMAGE\ ');
       Validator::isVide($data['libelle'],"libelle");
@@ -29,7 +43,7 @@ class ArticleConfectionController extends Controller{
         $lastInsertId = ArticleConfection::create([
             "libelle" => $data['libelle'],
             "prixAchat" => $data['prixAchat'],
-            "qteStock" => $data['quantite'],
+            "qteStock" => $quantite,
             "referent" => $data['referent'],
             'photo' => $data['photo'],
             "categorieId" => $data['selectCategorie'],
@@ -45,8 +59,9 @@ class ArticleConfectionController extends Controller{
        $response['dataArticle'][] = [
             "libelle" => $data['libelle'],
             "prixAchat" => $data['prixAchat'],
-            "qteStock" => $data['quantite'],
+            "qteStock" => $quantite,
             "referent" => $data['referent'],
+            'photo' => $data['photo'],
             "idArticle" => $lastInsertId->id,
         ];
          
@@ -54,8 +69,6 @@ class ArticleConfectionController extends Controller{
       $this->renderJson($response['dataArticle']);    
         // $this->RenderJson($errors);
      }
-
-     
         public function index(){
           
           $data = ArticleConfection::all();
@@ -73,13 +86,9 @@ class ArticleConfectionController extends Controller{
             $_SESSION['idc'] = $data['idc'];
           }
 
-          //  public function tableGet(){
-          //   if(Session::isset('idc')){
-          //     $idc = Session::get("idc");
-          //    Session::unset("idc");
-          //   }
-          //   $data = ArticleConfection::find(14) ;
-          //     $this->renderJson($data);  
-          //    }
+           public function tableGet(){
+              $data = ArticleConfection::findDetailCategorie(131) ;
+              $this->renderJson($data);  
+             }
          
  }

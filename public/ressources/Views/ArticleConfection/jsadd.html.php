@@ -208,12 +208,15 @@
                                  <label for="libelle">categorie</label>
                                  <input type="text" name="categorie" id="categorieModale2" class="form-control" value="" >
                                  <span id="categorieSelectionner" style = "color:green"></span><br>
+
                                  <label for="libelle">libelleUnite</label>
                                  <input type="text" name="libelleModal" id="libelleUnite" class="form-control" value=""> 
                                  <div id="errorMessage3"></div>
                                  <div class="convertir" style="display:flex;justify-content:space-arround;margin-top:5%" >
+                                 
                                  <label for="libelle"></label>
                                  <input type="text" name="libelleModal" id="convertirMetre" class="form-control" value="en metre" readonly="readonly"> 
+                                 
                                  <label for="libelle" class = "labe" style="margin-left:10%">convertir</label>
                                  <input type="text" name="enMetre" id="enMetre" class="form-control" value="" style="margin-left:2%"> 
                                  <button type="button" class="btn btn-primary" id="ok" style="background:black;margin-left:5%">ok</button>
@@ -255,6 +258,7 @@
                                             <th>prix</th>
                                             <th>quantite</th>
                                             <th>referent</th>
+                                            <th>photo</th>
                                             <th>Actions</th>
                                           </tr>
                                         </thead>
@@ -265,7 +269,11 @@
                                       </table>
                           </div>
 
-                      
+                <div id="pagination" class="d-flex justify-content-end  align-items-center" style="margin-right:50%;margin-top:0%">
+                    <button id="prevButton" class="btn btn-outline-secondary m-4">Précédent</button>
+                     <!-- <span id="currentPage">Page 1</span> -->
+                     <button id="nextButton" class="btn btn-outline-dark">Suivant</button>
+                 </div>
 
 
 

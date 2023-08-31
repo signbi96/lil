@@ -13,30 +13,80 @@ window.addEventListener("load",async function(){
     });
 
 
-//lister Articles de confections
-   await Api.getData(`${WEB_URL}/articleconfection-list`).then(function (data) {
-    tbody.innerHTML = ""
-    for(let cat of data){
-    tbody.innerHTML += `
-              <tr class="table">
-              <th scope="row">${cat.id}</th>
-              <td>${cat.libelle}</td>
-              <td>${cat.prixAchat}</td>
-              <td>${cat.qteStock}</td>
-              <td>${cat.referent}</td>
-              <td>
-              <div class="action" style="display: flex;justify-content:space-around">
-              <a href="">
-              <i class="fas fa-solid fa-pen-to-square"></i></a>
-              
-              <a name="" id="deleteCategorie" class="btn btn-primary" href="#" role="button"
-                  > <i class="fas fa-archive" style="color:#002879"></i></a>
-              </div>
-              </td>
-              </tr> 
-    `
+const itemsPerPage = 2; // Nombre d'articles par page
+let currentPage = 1; // Page actuelle
+let data = []; // Les données chargées depuis l'API
+const tbody = document.getElementById("tbody"); // Assurez-vous d'avoir un élément avec l'ID "tbody" dans votre HTML
+const nextButton = document.getElementById("nextButton"); // Assurez-vous d'avoir un bouton avec l'ID "nextButton" dans votre HTML
+const prevButton = document.getElementById("prevButton"); // Assurez-vous d'avoir un bouton avec l'ID "prevButton" dans votre HTML
+
+// Charger les données depuis l'API
+async function loadData() {
+    data = await Api.getData(`${WEB_URL}/articleconfection-list`);
+    renderPage();
+}
+
+// Afficher les articles pour la page actuelle
+function renderPage() {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    tbody.innerHTML = "";
+    for (let i = startIndex; i < endIndex && i < data.length; i++) {
+        const cat = data[i];
+        tbody.innerHTML += `
+            <tr class="table">
+                <th scope="row">${cat.id}</th>
+                <td>${cat.libelle}</td>
+                <td>${cat.prixAchat}</td>
+                <td>${cat.qteStock}</td>
+                <td>${cat.referent}</td>
+                <td class="text-center align-middle">
+                    <img src="${cat.photo}" alt="Image" width="70" height="50">
+                </td>
+                <td>
+                    <div class="action" style="display: flex;justify-content:space-around">
+                        <a href="">
+                            <i class="fas fa-solid fa-pen-to-square"></i>
+                        </a>
+                        <a name="" id="deleteCategorie" class="btn btn-primary" href="#" role="button">
+                            <i class="fas fa-archive" style="color:#002879"></i>
+                        </a>
+                    </div>
+                </td>
+            </tr>
+        `;
     }
- });
+
+    updatePaginationButtons();
+}
+
+// Mettre à jour l'état des boutons de pagination
+function updatePaginationButtons() {
+    nextButton.disabled = currentPage >= Math.ceil(data.length / itemsPerPage);
+    prevButton.disabled = currentPage <= 1;
+}
+
+// Aller à la page suivante
+async function nextPage() {
+    if (currentPage < Math.ceil(data.length / itemsPerPage)) {
+        currentPage++;
+        await loadData(); // Recharge les données depuis l'API pour la nouvelle page
+    }
+}
+
+// Aller à la page précédente
+async function prevPage() {
+    if (currentPage > 1) {
+        currentPage--;
+        await loadData(); // Recharge les données depuis l'API pour la nouvelle page
+    }
+}
+
+// Chargement initial des données et gestion des boutons de pagination
+loadData();
+nextButton.addEventListener("click", nextPage);
+prevButton.addEventListener("click", prevPage);
+
  })
  
 
@@ -59,11 +109,10 @@ function onChangeImage(){
 
 exampleModal1.onsubmit = async function(event) {
     event.preventDefault();
-
     const value = libelleCategorie.value;
     const uniteModal = uniteModalCategorie.value;
     const convertisseurModal = convertisseurDefaut.value;
-    await Api.postData(`${WEB_URL}/categorie-add`, { libelle: value, libelleModal: uniteModal, convertisseur: convertisseurModal }).then(function(data) {
+    await Api.postData(`${WEB_URL}/categorie-add`, { libelle: value, libelleModal: uniteModal, convertisseur: convertisseurModal }).then(function(data){
         // Ici, data contient les données renvoyées par la requête
         const dataCategorie = data.dataCategorie;
         // Utilisez les données pour effectuer les mises à jour nécessaires
@@ -72,13 +121,13 @@ exampleModal1.onsubmit = async function(event) {
         option.textContent = dataCategorie.libelleCategorie;
         selectCategorie.appendChild(option);
         selectCategorie.value = dataCategorie.idCategorie;
-
+        console.log(dataCategorie.convertisseur);
         const optionUnite = document.createElement("option");
                 optionUnite.value = dataCategorie.idUnite;
                 optionUnite.textContent = dataCategorie.libelleUnite;
                 selectUnite.appendChild(optionUnite);
                 selectUnite.value = dataCategorie.idUnite;
-
+               
     }).catch(function(error) {
         console.error(error);
     });
@@ -90,13 +139,16 @@ if(libelleCategorie.value === "" || uniteModalCategorie.value === ""){
     ajouterCategorie.disabled = true; 
 }
 
+
 //recuperation de la categorie pour l'unite apres ouverture du modale
 buttonAddUnite.addEventListener("click",function(){
     const id = selectCategorie.options[selectCategorie.selectedIndex].value
     const libelleCategorie = selectCategorie.options[selectCategorie.selectedIndex].textContent   
+    const libelleUnite = selectUnite.options[selectUnite.selectedIndex].textContent   
     const categorieSelectionner =document.querySelector('#categorieSelectionner');
     const categorieModale2 = document.querySelector('#categorieModale2')
     categorieModale2.value = libelleCategorie
+    convertirMetre.value = libelleUnite
     categorieModale2.disabled = true; 
     categorieSelectionner.textContent = "la ctegorie selectionner est :" +libelleCategorie
 })
@@ -189,6 +241,7 @@ exampleModal2.onsubmit = async function(event) {
                tbody3.innerHTML += `
                    <tr id="tr${cat.id}">
                        <td>${cat.nom}</td>
+                       
                        <td><input type="checkbox" class="sene-checkbox" data-id="${cat.id}"></td>
                    </tr>
                `;
@@ -239,7 +292,6 @@ exampleModal2.onsubmit = async function(event) {
            
     }
    
-
  }) 
  //ajout article
  formAddArticle.onsubmit = async function(event){
@@ -249,41 +301,44 @@ exampleModal2.onsubmit = async function(event) {
     const quantiteArticle = quantite.value
     const referentArticle = referent.value
     const libelleCategorie = selectCategorie.options[selectCategorie.selectedIndex].textContent
-   // const photoArticle = photo.value
     const selectCategorieArticle = selectCategorie.value
     const selectUniteArticle = selectUnite.value
    await Api.postData(`${WEB_URL}/articleconfection-add`,
    {libelle: libelleArticle,prixAchat: prixArticle,quantite: quantiteArticle,photo: photo,cheminImage: cheminImage,referent: referentArticle,
     selectCategorie: selectCategorieArticle,selectUnite: selectUniteArticle,libelleCategorie: libelleCategorie,data2: data2}).then(function (data){   
-        for(let cat of data){
-            tbody.innerHTML += `
-                      <tr class="table">
-                      <th scope="row">${cat.idArticle}</th>
-                      <td>${cat.libelle}</td>
-                      <td>${cat.prixAchat}</td>
-                      <td>${cat.qteStock}</td>
-                      <td>${cat.referent}</td>
-                      <td>
-                      <div class="action" style="display: flex;justify-content:space-around">
-                      <a href="">
-                      <i class="fas fa-solid fa-pen-to-square"></i></a>
+        // for(let cat of data){
+        //     tbody.innerHTML += `
+        //               <tr class="table">
+        //               <th scope="row">${cat.idArticle}</th>
+        //               <td>${cat.libelle}</td>
+        //               <td>${cat.prixAchat}</td>
+        //               <td>${cat.qteStock}</td>
+        //               <td>${cat.referent}</td>
+        //               <td class="text-center align-middle">
+        //               <img src="${cat.photo}" alt="Image" width="70" height="50">
+        //               </td>
+        //               <td>
+        //               <div class="action" style="display: flex;justify-content:space-around">
+        //               <a href="">
+        //               <i class="fas fa-solid fa-pen-to-square"></i></a>
                       
-                      <a name="" id="deleteCategorie" class="btn btn-primary" href="#" role="button"
-                          > <i class="fas fa-archive" style="color:#002879"></i></a>
-                      </div>
-                      </td>
-                      </tr> 
-            `
-            }
+        //               <a name="" id="deleteCategorie" class="btn btn-primary" href="#" role="button"
+        //                   > <i class="fas fa-archive" style="color:#002879"></i></a>
+        //               </div>
+        //               </td>
+        //               </tr> 
+        //     `
+        //     }
     })
     libelle.value = ""
     prixAchat.value = ""
     quantite.value = ""
     referent.value = ""
-    photo = ""
+    photo = " "
     selectCategorie.value = ""
     selectUnite.value = ""
     data2 = []
+    errorMessage.textContent = ""
 
 }
 
@@ -300,8 +355,6 @@ exampleModal2.onsubmit = async function(event) {
 }
 
 
-
-
 //recup id categorie pour categorieunite
 selectCategorie.addEventListener("change",async function(){
     const id = selectCategorie.options[selectCategorie.selectedIndex].value
@@ -309,16 +362,25 @@ selectCategorie.addEventListener("change",async function(){
             
      }) 
     }) 
-    
-    // recup categorie pour article confection
-    selectCategorie.addEventListener("change",async function(){
-        const idc = selectCategorie.options[selectCategorie.selectedIndex].value
-        await Api.postData(`${WEB_URL}/recup-categorie-id`,{idc: idc}).then(function (data) {
-                
-         }) 
-        }) 
-    
-    
+
+ //code numero d'ordre
+//recuperation de l'id
+selectCategorie.addEventListener("change",async function(){
+  const idc = selectCategorie.options[selectCategorie.selectedIndex].value
+  await Api.postData(`${WEB_URL}/recup-categorie-id`,{idc: idc}).then(function (data) {
+          
+   }) 
+  }) 
+
+let NombreArticle = 0;
+selectCategorie.addEventListener("change", async function() {
+  await Api.getData(`${WEB_URL}/articleconfection-table`).then(function(data) {
+    NombreArticle += data.length+1;
+      sessionStorage.setItem("NombreArticle", NombreArticle.toString());
+  });
+});
+let savedNombreArticle = sessionStorage.getItem("NombreArticle");
+//fin numero ordre  
 
 let threeworldCat = "" ;
 let threeworldLib = "" ;
@@ -340,7 +402,7 @@ selectCategorie.addEventListener("change",async function(){
     const libelleCategorie = selectCategorie.options[selectCategorie.selectedIndex].textContent 
     const id = selectCategorie.options[selectCategorie.selectedIndex].value
     threeworldCat = libelleCategorie.substr(0, 3)
-    position = +position + id
+    position = +position + savedNombreArticle
     const selectUnite = document.getElementById('selectUnite')
     selectUnite.innerHTML = ""
 
@@ -349,6 +411,7 @@ selectCategorie.addEventListener("change",async function(){
                    const option = document.createElement('option');
                    option.value = element.id; 
                    option.textContent = element.libelle;
+                  // option.dataset = 
                    selectUnite.appendChild(option);
                });  
                   
@@ -358,13 +421,7 @@ selectCategorie.addEventListener("change",async function(){
  
 })
 
-//recupere les details d'une categorie
 
-selectCategorie.addEventListener("change",async function(){
-    await Api.getData(`${WEB_URL}/articleconfection-table`).then(function (data){
-         //console.log(data.length)       
-   })
-})
 
 // Sélectionnez les éléments d'entrée
 const libelle = document.getElementById('libelle');
@@ -385,29 +442,31 @@ function referentInputHandler(event) {
         referent.value = libelle.value;
     }
 }
-
 libelle.addEventListener('input', referentInputHandler);
-let lastValue = '';
+
+//validation boutton enregistrer
 var errorMessage = document.getElementById("errorMessage");
-let isTrouve1 = false;
 libelle.addEventListener('input',async function(event){
-    lastValue = event.target.value;
+    let isTrouve1 = false;
  await Api.getData(`${WEB_URL}/articleconfection-list`).then(function (data) {
       data.forEach(element => {
-        if (String(element.libelle) === String(lastValue)){
+        if (String(element.libelle) === String(libelle.value)){
             errorMessage.style.color = "green";
             errorMessage.textContent = 'existe deja dans la base de donnée';
             addArticle.disabled = true;
             isTrouve1 = true;
-         }   
+         } 
       });
       if(isTrouve1){
         addArticle.disabled = true; 
       }else{
+        errorMessage.style.color = "red";
+        errorMessage.textContent = 'existe pas dans la base de donnée';
         addArticle.disabled = false; 
       }
  });
 })
+
 
 
 //validation  unite
@@ -541,7 +600,7 @@ addArticle.addEventListener("click",function(){
 const errorMessage14 = document.getElementById('errorMessage14');
 addArticle.addEventListener("click",function(){
  
-    if (!prix.value) {
+    if (!prixAchat.value) {
         errorMessage14.textContent = "champ obligatoire";
       } else {
         errorMessage14.textContent = "";

@@ -26,6 +26,10 @@ class CategorieUnite extends Model{
       public static function findDetailByCategorie(int $idCategorie){
          return parent::query("select * from ".  self::tableName() ." where idCategorie=:idCategorie  ",["idCategorie"=>$idCategorie]);
       }
+
+      public static function findDetailByUnite(int $idUnite){
+        return parent::query("select * from ".  self::tableName() ." where idUnite=:idUnite  ",["idUnite"=>$idUnite]);
+     }
    
 
 }
