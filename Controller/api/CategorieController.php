@@ -19,9 +19,11 @@ class CategorieController extends Controller{
             Validator::isVide($data['convertisseur'],"convertisseur");
            
             if(Validator::validate()){
+              $etatc = 1;
               try {
                $categorie = Categorie::create([
-                  "libelle" => $data['libelle']
+                  "libelle" => $data['libelle'],
+                  "etatc" => $etatc
                  ]);
                  $etat = 1;
                 $unite = Unite::create([
@@ -43,8 +45,7 @@ class CategorieController extends Controller{
                     'convertisseur' => $data['convertisseur']
                    ];
 
-                 
-
+            
               } catch (\PDOException $th) {
                 Validator::$errors["libelle"] = "cette categorie existe deja dans la base de donnés";
               }
@@ -63,6 +64,11 @@ class CategorieController extends Controller{
            public function index(){      
                   $data = Categorie::all();
                   $this->renderJson($data);      
+           }
+
+           public function index1(){      
+            $data = Categorie::all2(1);
+            $this->renderJson($data);      
            }
 
            public function index2(){      

@@ -65,7 +65,7 @@
                                      </div>
                                      <button data-bs-toggle="modal" data-bs-target="#exampleModal1" type="button" id="buttonAddCategorie"
                                      style="background:black;color:white;height:2em;margin-top:5.5%;border-radius:8px">+</button>
-                                </div>
+                                  </div>
 
                                      <div class="col" style="display:flex;justify-content:space-between;margin-top:-4%">
                                        <div class="form-group">
@@ -247,7 +247,7 @@
 
 
 
-                          <div class="container" style="width:72%">
+                        <div class="container" style="width:72%">
                           <h4 style="margin-left: 35%;padding-top:1%">Liste Des Articles De Confection</h4>
 
                               <table class="table table-bordered">

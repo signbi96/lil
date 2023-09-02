@@ -1,9 +1,10 @@
 <?php
 
 use App\Core\Rooter;
-use App\Models\UniteController;
 use App\Models\CategorieVente;
+use App\Models\UniteController;
 use App\Controllers\CategorieController;
+use App\Controllers\ArticleVenteController;
 use App\Controllers\ConfectionVenteController;
 use App\Controllers\ArticleConfectionController;
 
@@ -38,6 +39,9 @@ Rooter::route("/article-store-js",[ArticleConfectionController::class,'storejs']
 
 Rooter::route("/unite",[UniteController::class,'index']);
 Rooter::route("/unite-add",[UniteController::class,'store']);
+
+Rooter::route("/articlevente-store-js",[ArticleVenteController::class,'storejs']);
+Rooter::route("/addArticleVente/js",[ArticleVenteController::class,'createjs']);
 
 
 

@@ -109,7 +109,5 @@ use App\Core\Model;
 
                   return $this;
          }
-         public static function all2(){
-          return self::query("SELECT * FROM categorie order by id desc");
-        }  
+          
  }

@@ -34,6 +34,17 @@ namespace App\Core;
                $req->closeCursor();
               return $data;
         }
+        public static function all2(int $etatc){
+         $bdd = parent::openConnexion();
+          $req = $bdd->prepare('SELECT * FROM '.static::tableName().' WHERE etatc = :etatc');
+          $req->bindValue(':etatc',$etatc);
+          $req->setFetchMode(\PDO::FETCH_CLASS,get_called_class());
+          //$req->execute(['id' => $id]);
+          $req->execute();
+          $data=$req->fetchAll(\PDO::FETCH_CLASS,get_called_class());
+          $req->closeCursor();
+          return $data; 
+        }
 
         public static function find($id){
           $bdd = parent::openConnexion();
