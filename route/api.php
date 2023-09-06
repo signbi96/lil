@@ -13,6 +13,7 @@ use App\Controllers\Api\TailleController;
 
 Rooter::route("/api/categorie",[CategorieController::class,'index']);
 Rooter::route("/api/categorie-add",[CategorieController::class,'store']);
+Rooter::route("/api/categorie-add1",[CategorieController::class,'store1']);
 Rooter::route("/api/categorie/list",[CategorieController::class,'index2']);
 Rooter::route("/api/categorieVente",[CategorieController::class,'index1']);
 
@@ -44,3 +45,5 @@ Rooter::route("/api/articlevente-list",[ArticleVenteController::class,'index']);
 
 Rooter::route("/api/taille",[TailleController::class,'index']);
 Rooter::route("/api/taille-add",[TailleController::class,'store']);
+
+//Rooter::route("/api/categotirunite-listed",[CategorieUniteController::class,'index1']);

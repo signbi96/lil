@@ -4,8 +4,8 @@ use App\Core\Model;
 class ConfectionVente extends Model{
     public  int $id;
     public int $qteCV;
-    public int $articleConfId;
-    public int $articleVenteId;
+    public int $idArticleConfection;
+    public int $idArticleVente;
      protected static function tableName(){
                return "ConfectionVente";
       }
@@ -16,32 +16,11 @@ class ConfectionVente extends Model{
       }
       
       public function article(){
-        return $this->articleModel-> find($this->articleConfId);
+        return $this->articleModel-> find($this->idArticleConfection);
       }
  
-      public static function findDetailByConfectionVente(int $articleVenteId){
-         return parent::query("select * from ".  self::tableName() ." where articleVenteId=:articleVenteId  ",["articleVenteId"=>$articleVenteId]);
+      public static function findDetailArticleVente(int $idArticleVente){
+         return parent::query("select * from ".  self::tableName() ." where idArticleConfection=:idArticleConfection  ",["idArticleConfection"=>$idArticleConfection]);
       }
-      public function getId()
-      {
-         return $this->id;
-      }
-
-      public function setId($id)
-      {
-          $this->id = $id;
-  
-          return $this;
-      }
-  
-      public function getQuantite()
-      {
-          return $this->qteCV;
-      }
-  
-      public function setQuantite($qteCV)
-      {
-          $this->$qteCV = $qteCV;
-          return $this;
-      }
+      
 }

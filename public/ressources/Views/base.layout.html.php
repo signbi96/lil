@@ -16,6 +16,7 @@
 <link rel="stylesheet" href="CSS/style.css">
 <link rel="stylesheet" href="CSS/style2.css">
 
+
   <!-- Bootstrap CSS v5.2.1 -->
 </head>
  
@@ -38,7 +39,6 @@
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
     integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous">
-  </script>
- <script src="JS/script.js"></script> 
+  </script> 
 </body>
 </html>        

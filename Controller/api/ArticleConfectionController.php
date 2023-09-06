@@ -1,5 +1,6 @@
 <?php
 namespace App\Controllers\Api;
+
 use App\Core\Session;
 use App\Core\Validator;
 use App\Core\Controller;
@@ -73,6 +74,7 @@ class ArticleConfectionController extends Controller{
           
           $data = ArticleConfection::all();
             $this->RenderJson($data);
+         
           }
 
            public function delete(){

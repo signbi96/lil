@@ -19,7 +19,7 @@ class CategorieController extends Controller{
             Validator::isVide($data['convertisseur'],"convertisseur");
            
             if(Validator::validate()){
-              $etatc = 1;
+              $etatc = 0;
               try {
                $categorie = Categorie::create([
                   "libelle" => $data['libelle'],
@@ -52,13 +52,31 @@ class CategorieController extends Controller{
                  echo json_encode($response);
                
             }
-               // Session::set("errors",Validator::$errors);
-              // $errors['erreur'] = "champ obligatoire";
-              //$errors['erreur'] = "erreur code";
-             //$this->renderJson($errors);
-            //dd($datinho);
-         
-            // $this->redirect("categorie");
+             
+           }
+
+
+           public function store1(){
+            $data = $this->decodeJson();
+            Validator::isVide($data['libelle'],"libelle");          
+            if(Validator::validate()){
+              $etatc = 1;
+              try {
+               $categorie2 = Categorie::create([
+                  "libelle" => $data['libelle'],
+                  "etatc" => $etatc
+                 ]);
+
+                 $response['Categorie'] = [
+                  'libelleCategorie' => $data['libelle'],
+                  'idCategorie' => $categorie2->id,
+                 ];
+            
+              } catch (\PDOException $th) {
+                Validator::$errors["libelle"] = "cette categorie existe deja dans la base de donnés";
+              }
+              echo json_encode($response);     
+            }
            }
 
            public function index(){      

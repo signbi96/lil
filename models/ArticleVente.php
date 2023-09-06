@@ -8,6 +8,7 @@ class ArticleVente extends Model{
     public int $quantiteVente;
     public float $montant;
     public string $photo;
+    public string $referent;
     public int $IdCategorieVente;
       //Navigation 
     public CategorieVente $categorie_vente;

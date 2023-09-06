@@ -45,7 +45,7 @@
                                        <select class="form-control" name="selectTaille" id="selectTaille"style="">
                                            <option value="">choisir Taille</option>
                                        </select>
-                                       <button data-bs-toggle="modal" data-bs-target="#exampleModal2"  type="button" id="addUnite" 
+                                       <button data-bs-toggle="modal" data-bs-target="#exampleModal2"  type="button" id="addTaille" 
                                        style="border-radius:8px;background:black;color:white;margin-left:1%">ok</button>
                                        </div>   
                                      </div>
@@ -55,7 +55,10 @@
 
                      <div class="row" style="margin-top:1.5%">
                              <div class="col md-6">
-                             <label for="">Article de Confections</label>
+                              <div class="ligu" style="display:flex;justify-content:space-between">
+                              <label for="">Article de Confections</label>
+                              <button  type="button" id="addArticleConfection" style="border-radius:8px;background:black;color:white;">ok</button>
+                              </div>
                              <table class="table table-bordered">
                                         <thead style="background:black;color:white">
                                           <tr>
@@ -63,26 +66,15 @@
                                             <th>quantite</th>
                                           </tr>
                                         </thead>
-                                        <tbody id="tbody">
-                                          <td>
-                                          <div class="form-group has-success" >
-                                            <label class="form-label " for="inputvalid" >libelle</label>
-                                            <input type="text" name="referent" value="" class="form-control" id="">
-                                           </div>
-                                          </td>
-                                          <td>
-                                          <div class="form-group has-success" >
-                                            <label class="form-label " for="inputvalid" >quantite</label>
-                                            <input type="text" name="referent" value="" class="form-control" id="">
-                                           </div>
-                                          </td>
+                                        <tbody id="tbodyTable">
+                                          
                                         </tbody>
                                       </table>
                                      
                                       <div class="truc" style="display:flex;width:100%;justify-content:space-around" >
-                                        <label>coutProduction<input type="text" name="libelle" value="" class="form-control" id="libelle" style="margin-left:-1%"></label>
-                                        <label>Marge<input type="text" name="libelle" value="" class="form-control" id="libelle" ></label>
-                                        <label>PriVente<input type="text" name="libelle" value="" class="form-control" id="libelle" style="margin-left:1%"></label>
+                                        <label>coutProduction<input type="text" name="libelle" value="" class="form-control" id="coutProduction" style="margin-left:-1%"></label>
+                                        <label>Marge<input type="text" name="libelle" value="" class="form-control" id="marge" ></label>
+                                        <label>PriVente<input type="text" name="libelle" value="" class="form-control" id="prixVente" style="margin-left:1%"></label>
                                       </div>
                                         
                               </div>
@@ -93,7 +85,7 @@
                                              <div class="form-group has-success" id="image" style="width:100%;margin-left:10%" >
                                                <input type="file" name="sene" value="" class="form-control" id="inputvalid" style="display:none">
                                                <label class="form-label " for="inputvalid">
-                                               <img id="imageChanged" src="./../../../ressources/IMAGE/fake.jpg"  alt="" style="width:240%;height:10em">
+                                               <img id="imageChanged" src="./../../../ressources/IMAGE/fake.jpg"  alt="" style="width:200%;height:10em">
                                               </div>
                                     </div>
                                  </div>
@@ -126,7 +118,6 @@
                               </div>
                             </div>
 </form>
-
 <form method="post" class="modal fade"  id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel1" aria-hidden="true">
                             <div class="modal-dialog">
                               <div class="modal-content">
@@ -162,23 +153,7 @@
                                           </tr>
                                         </thead>
                                         <tbody id="tbody">
-                                          <td>1</td>
-                                          <td>article1</td>
-                                          <td>ref-rty-001</td>
-                                          <td>400000</td>
-                                          <td>20000</td>
-                                          <td>photo.jpeg</td>
-                                          <td>
-                                          <div class="action" style="display: flex;justify-content:space-around">
-                                            <a href="">
-                                             <i class="fas fa-solid fa-pen-to-square"></i>
-                                             </a>
-                                             <a href="">
-                                             <i class="fa-solid fa-trash" style="color: #f20226;"></i>
-                                             </a>
-                                           </a>
-                                          </div>      
-                                          </td>
+                                          
 
                                         </tbody>
                                       </table>

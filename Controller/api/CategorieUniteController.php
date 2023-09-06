@@ -31,7 +31,10 @@ class CategorieUniteController extends Controller
         $this->renderJson($data);
     }
 
-    
+   public function index1(){
+    $data = CategorieUnite::all(); 
+    $this->renderJson($data);
+    }
   
     public function delete(){
 
