@@ -24,15 +24,8 @@ class ConfectionVenteController extends Controller
     }
     public function index()
     {
-        $datass =  ConfectionVente::findDetailByConfectionVente($_SESSION['id']);
-        $page=1;
-        if(isset($_GET['page'])){
-            $page = intval($_GET['page']);
-        }
-        $datas=paginnation($datass, $page, 4);
-        $nombrepage=get_nombre_page($datass, 4);
-        $this->view("ConfectionVente/lister", [ "datas" => $datas], $nombrepage, $page);
-        
+        $data = ConfectionVente::all();
+         $this->renderJson($data);
     }
     public function delete(){
 

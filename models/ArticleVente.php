@@ -6,7 +6,7 @@ class ArticleVente extends Model{
     public string $libelle;
     public float $prixVente;
     public int $quantiteVente;
-    public float $montant;
+    public float $coutProduction;
     public string $photo;
     public string $referent;
     public int $IdCategorieVente;

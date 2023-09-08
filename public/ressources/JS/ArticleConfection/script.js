@@ -87,6 +87,9 @@ loadData();
 nextButton.addEventListener("click", nextPage);
 prevButton.addEventListener("click", prevPage);
 
+
+
+
  })
  
 
@@ -200,8 +203,6 @@ exampleModal2.onsubmit = async function(event) {
 
       
 }
-
-
 
 /* fin ajout unite */
 

@@ -80,24 +80,23 @@ class CategorieController extends Controller{
            }
 
            public function index(){      
-                  $data = Categorie::all();
-                  $this->renderJson($data);      
-           }
+                $data = Categorie::all2(0);
+                $this->renderJson($data);      
+             }
 
            public function index1(){      
-            $data = Categorie::all2(1);
-            $this->renderJson($data);      
+             $data = Categorie::all2(1);
+             $this->renderJson($data);      
            }
 
            public function index2(){      
             $data = Categorie::all2();
             $this->renderJson($data);      
-     }
+           }
 
            public function delete(){ 
                 
            }
-
            public function indexUpdate(){
            
             }

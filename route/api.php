@@ -22,6 +22,7 @@ Rooter::route("/api/confectionvente-add-select",[ConfectionVenteController::clas
 Rooter::route("/api/confectionvente-add-text",[ConfectionVenteController::class,'text']);
 Rooter::route("/api/confectionvente-add-article",[ConfectionVenteController::class,'getArticle']);
 Rooter::route("/api/confectionvente-add-select-categorie",[ConfectionVenteController::class,'getCategorieSelect']);
+Rooter::route("/api/confectionvente-list",[ConfectionVenteController::class,'index']);
 
 
 Rooter::route("/api/unite",[UniteController::class,'index']);
@@ -41,9 +42,10 @@ Rooter::route("/api/recup-categorie",[CategorieUniteController::class,'recupIdCa
 
 Rooter::route("/api/articlevente-add",[ArticleVenteController::class,'store']);
 Rooter::route("/api/articlevente-list",[ArticleVenteController::class,'index']);
+Rooter::route("/api/articlevente-delete",[ArticleVenteController::class,'delete']);
 
 
 Rooter::route("/api/taille",[TailleController::class,'index']);
 Rooter::route("/api/taille-add",[TailleController::class,'store']);
 
-//Rooter::route("/api/categotirunite-listed",[CategorieUniteController::class,'index1']);
+Rooter::route("/api/categotirunite-listed",[CategorieUniteController::class,'index1']);
