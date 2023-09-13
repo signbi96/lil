@@ -150,5 +150,9 @@ public static function updateQuantite(int $id,int $qteStock){
  }
 
 
+   public static function all3(){
+        return parent::query("select * from article_confection ac,unite u where ac.idUnite = u.id");
+     }
+
 
 }

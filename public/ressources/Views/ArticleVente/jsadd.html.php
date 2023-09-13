@@ -75,7 +75,7 @@
                                         </tbody>
                                       </table>
                                      
-                                      <div class="truc" style="display:flex;width:100%;justify-content:space-around" >
+                                       <div class="truc" style="display:flex;width:100%;justify-content:space-around" >
                                         <label>coutProduction<input type="text" name="libelle" value="" class="form-control" id="coutProduction" style="margin-left:-1%"></label>
                                         <label>Marge<input type="text" name="libelle" value="" class="form-control" id="marge" >
                                         <div id="errorMessageMarge1" style="color:red"></div>
@@ -160,13 +160,9 @@
                                           </tr>
                                         </thead>
                                         <tbody id="tbodyModal">
-                                          
+                        
                                         </tbody>
-                                      </table>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Save changes</button>
+          </table>
           </div>
         </div>
       </div>

@@ -58,7 +58,9 @@ class ArticleVenteController extends Controller{
        
        public function delete(){
           $data = $this->decodeJson();   
-          dd($data);
+           ArticleVente::deleted($data['id']);
+           $response = ArticleVente::all22(1);
+           $this->renderJson($response);
        }
        public function update(){
         

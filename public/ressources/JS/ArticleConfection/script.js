@@ -208,92 +208,179 @@ exampleModal2.onsubmit = async function(event) {
 
 
  //parti1 recherche fournisseur 
- const fournisseur = document.querySelector('#fournisseur')
- let lastWord ;
- let threelastWord;
- let data1 = [];
- let data2 = [];
- let objet ={}
+//  const fournisseur = document.querySelector('#fournisseur')
+//  let lastWord ;
+//  let threelastWord;
+//  let data1 = [];
+//  let data2 = [];
+//  let objet ={}
 
- fournisseur.addEventListener("input",async function(event){
-    lastWord = event.target.value;
-    threelastWord = lastWord.substr(0, 3)
-    if(lastWord.length === 3){
-        await Api.getData(`${WEB_URL}/fournisseur-list`).then(function (data){ 
+//  fournisseur.addEventListener("input",async function(event){
+//     lastWord = event.target.value;
+//     threelastWord = lastWord.substr(0, 3)
+//     if(lastWord.length === 3){
+//         await Api.getData(`${WEB_URL}/fournisseur-list`).then(function (data){ 
 
-                data1 = data.filter(function(element){
-                    return element.nom.includes(lastWord)
-                })       
-            console.log(data1)
-           });
-           //data1
-           tbody3.innerHTML = "";
-           for (let cat of data1){
-            for (let element1 of data2) {
-                if(cat.nom === element1.nom){
-                    const indexASupprimer1 = data1.findIndex(item => item.id === cat.id);
-                    if (indexASupprimer1 !== -1) {
-                        data1.splice(indexASupprimer1, 1);
-                        idtr.remove()
-                    } 
-                }
-            }
+//                 data1 = data.filter(function(element){
+//                     return element.nom.includes(lastWord)
+//                 })       
+//             console.log(data1)
+//            });
+//            //data1
+//            tbody3.innerHTML = "";
+//            for (let cat of data1){
+//             for (let element1 of data2) {
+//                 if(cat.nom === element1.nom){
+//                     const indexASupprimer1 = data1.findIndex(item => item.id === cat.id);
+//                     if (indexASupprimer1 !== -1) {
+//                         data1.splice(indexASupprimer1, 1);
+//                         idtr.remove()
+//                     } 
+//                 }
+//             }
             
-               tbody3.innerHTML += `
-                   <tr id="tr${cat.id}">
-                       <td>${cat.nom}</td>
+//                tbody3.innerHTML += `
+//                    <tr id="tr${cat.id}">
+//                        <td>${cat.nom}</td>
                        
-                       <td><input type="checkbox" class="sene-checkbox" data-id="${cat.id}"></td>
-                   </tr>
-               `;
-               // a revoir 
-               const checkboxes = document.querySelectorAll('.sene-checkbox');
-               checkboxes.forEach(checkbox => {
-                      checkbox.addEventListener('click', function(){
-               let idtr = document.querySelector("#tr" + cat.id)
-                      objet = {
-                        "id": cat.id,
-                        "nom": cat.nom,
-                        "prenom": cat.prenom,
-                        "email": cat.email,
-                        "password": cat.password
-                     }
+//                        <td><input type="checkbox" class="sene-checkbox" data-id="${cat.id}"></td>
+//                    </tr>
+//                `;
+//                // a revoir 
+//                const checkboxes = document.querySelectorAll('.sene-checkbox');
+//                checkboxes.forEach(checkbox => {
+//                       checkbox.addEventListener('click', function(){
+//                let idtr = document.querySelector("#tr" + cat.id)
+//                       objet = {
+//                         "id": cat.id,
+//                         "nom": cat.nom,
+//                         "prenom": cat.prenom,
+//                         "email": cat.email,
+//                         "password": cat.password
+//                      }
                    
-                    //data2
-                     data2.push(objet)
-                     const indexASupprimer1 = data1.findIndex(item => item.id === cat.id);
-                            if (indexASupprimer1 !== -1) {
-                                data1.splice(indexASupprimer1, 1);
-                                idtr.remove()
-                            }
-                    tbody4.innerHTML = ""
-                    for (let element of data2) {
-                        tbody4.innerHTML += `
-                            <tr id="tr2${element.id}">
-                                <td>${element.nom}</td>
-                                <td style="color:red" id="id${element.id}"><i class="fas fa-archive" style="color:red"></i></td>
-                            </tr>
-                        `;
+//                     //data2
+//                      data2.push(objet)
+//                      const indexASupprimer1 = data1.findIndex(item => item.id === cat.id);
+//                             if (indexASupprimer1 !== -1) {
+//                                 data1.splice(indexASupprimer1, 1);
+//                                 idtr.remove()
+//                             }
+//                     tbody4.innerHTML = ""
+//                     for (let element of data2) {
+//                         tbody4.innerHTML += `
+//                             <tr id="tr2${element.id}">
+//                                 <td>${element.nom}</td>
+//                                 <td style="color:red" id="id${element.id}"><i class="fas fa-archive" style="color:red"></i></td>
+//                             </tr>
+//                         `;
                     
-                        const identifiant2 = document.querySelector('#id' + element.id);
-                        const tr2 = document.querySelector('#tr2' + element.id);
-                        identifiant2.addEventListener('click', function() {
-                            const indexASupprimer = data2.findIndex(item => item.id === element.id);
-                            if (indexASupprimer !== -1) {
-                                data2.splice(indexASupprimer, 1);
-                                tr2.remove();
-                            }
-                          });
-                    }
+//                         const identifiant2 = document.querySelector('#id' + element.id);
+//                         const tr2 = document.querySelector('#tr2' + element.id);
+//                         identifiant2.addEventListener('click', function() {
+//                             const indexASupprimer = data2.findIndex(item => item.id === element.id);
+//                             if (indexASupprimer !== -1) {
+//                                 data2.splice(indexASupprimer, 1);
+//                                 tr2.remove();
+//                             }
+//                           });
+//                     }
                     
-                });
-              });
+//                 });
+//               });
               
+//            }
+           
+//     }
+   
+//  }) 
+
+
+//test
+const fournisseur = document.querySelector('#fournisseur')
+let lastWord ;
+let threelastWord;
+let data1 = [];
+let data2 = [];
+let objet ={}
+
+fournisseur.addEventListener("input",async function(event){
+   lastWord = event.target.value;
+   threelastWord = lastWord.substr(0, 3)
+   if(lastWord.length === 3){
+       await Api.getData(`${WEB_URL}/fournisseur-list`).then(function (data){ 
+
+               data1 = data.filter(function(element){
+                   return element.nom.includes(lastWord)
+               })       
+           console.log(data1)
+          });
+          //data1
+          tbody3.innerHTML = "";
+          for (let cat of data1){
+           for (let element1 of data2) {
+               if(cat.nom === element1.nom){
+                   const indexASupprimer1 = data1.findIndex(item => item.id === cat.id);
+                   if (indexASupprimer1 !== -1) {
+                       data1.splice(indexASupprimer1, 1);
+                       idtr.remove()
+                   } 
+               }
            }
            
-    }
-   
- }) 
+              tbody3.innerHTML += `
+                  <tr id="tr${cat.id}">
+                      <td>${cat.nom}</td>
+                      
+                      <td><input type="checkbox" class="sene-checkbox" id="checkboxe${cat.id}"></td>
+                  </tr>
+              `;
+              // a revoir 
+              const checkboxe = document.getElementById(`checkboxe${cat.id}`);
+              checkboxe.addEventListener('click',function(){
+                alert('ok')
+                let idtr = document.getElementById(`tr${cat.id}`)
+                objet = {
+                  "id": cat.id,
+                  "nom": cat.nom,
+                  "prenom": cat.prenom,
+                  "email": cat.email,
+                  "password": cat.password
+               }
+               data2.push(objet)
+               const indexASupprimer1 = data1.findIndex(item => item.id === cat.id);
+                      if (indexASupprimer1 !== -1) {
+                          data1.splice(indexASupprimer1, 1);
+                          idtr.remove()
+                      }
+              tbody4.innerHTML = ""
+              for (let element of data2) {
+                  tbody4.innerHTML += `
+                      <tr id="tr2${element.id}">
+                          <td>${element.nom}</td>
+                          <td style="color:red" id="id${element.id}"><i class="fas fa-archive" style="color:red"></i></td>
+                      </tr>
+                  `;
+              
+                 // const identifiant2 = document.querySelector('#id' + element.id);
+                  const identifiant2 = document.getElementById(`id${element.id}`);
+                  const tr2 = document.getElementById(`tr2${element.id}`);
+                  identifiant2.addEventListener('click', function() {
+                      const indexASupprimer = data2.findIndex(item => item.id === element.id);
+                      if (indexASupprimer !== -1) {
+                          data2.splice(indexASupprimer, 1);
+                          tr2.remove();
+                      }
+                    });
+              }
+              })
+             
+          }
+          
+   }
+  
+})
+
  //ajout article
  formAddArticle.onsubmit = async function(event){
     event.preventDefault()

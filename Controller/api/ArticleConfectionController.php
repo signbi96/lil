@@ -71,7 +71,6 @@ class ArticleConfectionController extends Controller{
         // $this->RenderJson($errors);
      }
         public function index(){
-          
           $data = ArticleConfection::all();
             $this->RenderJson($data);
          

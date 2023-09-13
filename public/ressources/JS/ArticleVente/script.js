@@ -25,7 +25,6 @@ function renderPage() {
   for (let i = startIndex; i < endIndex && i < data.length; i++) {
       const cat = data[i];
       const row = document.createElement("tr"); // Créez une nouvelle ligne pour chaque article
-
       row.innerHTML = `
           <td>${cat.id}</td>
           <td>${cat.libelle}</td>
@@ -52,40 +51,53 @@ function renderPage() {
       tbody.appendChild(row); // Ajoutez la ligne au tbody
       const detailButton = document.getElementById(`detail${i}`);
       detailButton.addEventListener('click', async function () {
+        tbodyModal.innerHTML = ""
           const data = await Api.getData(`${WEB_URL}/confectionvente-list`);
           const data2 = await Api.getData(`${WEB_URL}/articleconfection-list`);
+          const data3 = await Api.getData(`${WEB_URL}/categotirunite-listed`);
           data.forEach(element => {
                  if (cat.id == element.idArticleVente){
                   data2.forEach(element2 => {
-                       if (element.idArticleConfection == element2.id) {
-                        tbodyModal.innerHTML += `
-                        <td> <div class="form-group has-success">
-                        <label class="form-label" for="inputvalid">libelle</label>
-                        <input type="text" name="referent" value="${element2.libelle}" class="form-control" id="">
-                        </div>
-                      </td>
-                        <td>
-                        <div class="form-group has-success">
-                        <label class="form-label" for="inputvalid">quantite</label>
-                        <input type="text" name="referent" value="${element.quantite}" class="form-control" id="">
-                      </div>
-                        </td>
-                      `; 
+                       if (element.idArticleConfection == element2.id){
+                       data3.forEach(unite => {
+                           if (element2.idUnite == unite.id) {
+                            tbodyModal.innerHTML += `
+                            <td> <div class="form-group has-success">
+                            <label class="form-label" for="inputvalid">libelle</label>
+                            <input type="text" name="referent" value="${element2.libelle}" class="form-control" id="">
+                            </div>
+                            </td>
+                            <td>
+                              
+                            <div class="form-group has-success">
+                            <label class="form-label" for="inputvalid">quantite</label>
+                            <div style="display:flex">
+                            <input type="text" name="referent" value="${element.quantite}" class="form-control" id="">
+                            <span id="" value ="">${unite.libelle}</span>
+                            </div>
+                            </div>
+                            </td>
+                          `; 
+                           }
+                       });
                        }
                   });  
                  }
           });
+
+
       });
 
       //gerer suppression
       const deleteButton = document.getElementById(`delete${i}`);
-      deleteButton.addEventListener('click',async function(){
+      deleteButton.addEventListener('click',async function(event){
+        event.preventDefault();
           const idArticle = cat.id
           const etatAV1 = cat.etatAV
-          await Api.postData(`${WEB_URL}/articlevente-delete`,{id: idArticle,etatAV: etatAV1}).then(function (data){ 
-        
+          await Api.postData(`${WEB_URL}/articlevente-delete`,{id: idArticle,etatAV: etatAV1}).then(function (data){
           })
-
+          
+          /*in*/
       });
 
   }
@@ -146,7 +158,6 @@ prevButton.addEventListener("click", prevPage);
 
 let l = 1; 
 let formValues = [];
-let formValues2 = [];
 let total = 0;
 document.addEventListener('DOMContentLoaded', function(){
   const tbodyTable = document.getElementById('tbodyTable');
@@ -332,11 +343,64 @@ marge.addEventListener("input", function(event){
 //validation boutton enregistrer
 const errorMessage = document.getElementById("errorMessage");
 const libelle = document.getElementById("libelle")
+let formValues2 = [];
 libelle.addEventListener('input',async function(event){
+  selectTaille.innerHTML = ""
+  tbodyTable.innerHTML = ""
     let isTrouve1 = false;
- await Api.getData(`${WEB_URL}/articlevente-list`).then(function (data) {
+     const data = await Api.getData(`${WEB_URL}/articlevente-list`)
+     const data1 = await Api.getData(`${WEB_URL}/confectionvente-list`);
+     const data2 = await Api.getData(`${WEB_URL}/articleconfection-list`); 
+     const data3 = await Api.getData(`${WEB_URL}/categotirunite-listed`);
+     const data4 = await Api.getData(`${WEB_URL}/taille`)
       data.forEach(element => {
         if (String(element.libelle) === String(libelle.value)){
+          data4.forEach(element4 => {
+            if (element.idTaille !== element4.id) {
+              const option = document.createElement('option');
+              option.value = element4.id; 
+              option.textContent = element4.libelle;
+              selectTaille.appendChild(option);
+            } 
+           });
+            data1.forEach(element1 => {
+                if (element1.idArticleVente == element.id){
+                    addArticle.disabled = false;
+                    data2.forEach((element2) => {
+                           if (element1.idArticleConfection == element2.id){
+                              data3.forEach(element3 => {
+                                   if (element2.idUnite == element3.id){
+                                 // formValues2.push({ libelle: element2.libelle, prix: element2.prixAchat, id: element.id, libelle2: libelleCategorie2 });
+                                     tbodyTable.innerHTML += `
+                                        <td> <div class="form-group has-success">
+                                        <label class="form-label" for="inputvalid">libelle</label>
+                                        <input type="text" name="referent" value="${element2.libelle}" class="form-control" id="libelle${element2.id}">
+                                        </div>
+                                        </td>
+                                        <td>
+                                          
+                                        <div class="form-group has-success">
+                                        <label class="form-label" for="inputvalid">quantite</label>
+                                        <div style="display:flex">
+                                        <input type="text" name="referent" value="" class="form-control" id="quantite${element2.id}">
+                                        <span id="" value ="">${element3.libelle}</span>
+                                        </div>
+                                        </div>
+                                        </td>
+                                      `;
+                                      const quantiteInput = document.getElementById(`quantite${element2.id}`);
+                                      const libelleInput = document.getElementById(`libelle${element2.id}`);
+                                      quantiteInput.addEventListener('input',function(){
+                                           alert('ok')
+                                      })
+                                   }
+                                    
+                              });
+                             
+                           }
+                    });
+                }
+            });
             errorMessage.style.color = "green";
             errorMessage.textContent = 'existe deja dans la base de donnée';
             isTrouve1 = true;
@@ -347,8 +411,97 @@ libelle.addEventListener('input',async function(event){
         errorMessage.style.color = "red";
         errorMessage.textContent = 'existe pas dans la base de donnée';
       }
- });
 })
+
+
+// const errorMessage = document.getElementById("errorMessage");
+// const libelle = document.getElementById("libelle");
+// let formValues2 = [];
+// libelle.addEventListener('input', async function(event) {
+//   selectTaille.innerHTML = "";
+//   tbodyTable.innerHTML = "";
+//   let isTrouve1 = false;
+//   const data = await Api.getData(`${WEB_URL}/articlevente-list`);
+//   const data1 = await Api.getData(`${WEB_URL}/confectionvente-list`);
+//   const data2 = await Api.getData(`${WEB_URL}/articleconfection-list`);
+//   const data3 = await Api.getData(`${WEB_URL}/categotirunite-listed`);
+//   const data4 = await Api.getData(`${WEB_URL}/taille`);
+
+//   data.forEach(element => {
+//     if (String(element.libelle) === String(libelle.value)) {
+//       data4.forEach(element4 => {
+//         if (element.idTaille !== element4.id) {
+//           const option = document.createElement('option');
+//           option.value = element4.id;
+//           option.textContent = element4.libelle;
+//           selectTaille.appendChild(option);
+//         }
+//       });
+//       data1.forEach(element1 => {
+//         if (element1.idArticleVente == element.id) {
+//           addArticle.disabled = false;
+//           data2.forEach((element2) => {
+//             if (element1.idArticleConfection == element2.id) {
+//               data3.forEach(element3 => {
+//                 if (element2.idUnite == element3.id) {
+//                   const id = element2.id;
+//                   tbodyTable.innerHTML += `
+//                     <td>
+//                       <div class="form-group has-success">
+//                         <label class="form-label" for="inputvalid">libelle</label>
+//                         <input type="text" name="referent" value="${element2.libelle}" class="form-control" id="libelle${id}">
+//                       </div>
+//                     </td>
+//                     <td>
+//                       <div class="form-group has-success">
+//                         <label class="form-label" for="inputvalid">quantite</label>
+//                         <div style="display:flex">
+//                           <input type="text" name="referent" value="" class="form-control" id="quantite${id}">
+//                           <span id="" value ="">${element3.libelle}</span>
+//                         </div>
+//                       </div>
+//                     </td>
+//                   `;
+
+//                   const quantiteInput = document.getElementById(`quantite${id}`);
+//                   const libelleInput = document.getElementById(`libelle${id}`);
+
+//                   quantiteInput.addEventListener('input', function() {
+//                     alert('ok');
+//                   });
+//                 }
+//               });
+//             }
+//           });
+//         }
+//       });
+//       errorMessage.style.color = "green";
+//       errorMessage.textContent = 'existe déjà dans la base de données';
+//       isTrouve1 = true;
+//     }
+//   });
+
+//   if (!isTrouve1) {
+//     errorMessage.style.color = "red";
+//     errorMessage.textContent = 'n\'existe pas dans la base de données';
+//   }
+
+//   // Maintenant que toutes les lignes et les gestionnaires d'événements sont créés,
+//   // nous pouvons ajouter le gestionnaire d'événements à l'ensemble du tableau ici
+//   // au lieu de le faire à l'intérieur de la boucle forEach
+//   const quantiteInputs = document.querySelectorAll('[id^="quantite"]');
+//   quantiteInputs.forEach(quantiteInput => {
+//     quantiteInput.addEventListener('input', function() {
+//       alert('ok');
+//     });
+//   });
+// });
+
+
+
+
+
+
 
 //ajout categorie
 exampleModal1.onsubmit = async function(event) {
